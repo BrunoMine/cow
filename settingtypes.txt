@@ -1,0 +1,3 @@
+# Configurações aplicaveis para o menu gráfico
+# Settings applicable from Minetest GUI
+
