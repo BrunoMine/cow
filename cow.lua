@@ -9,7 +9,7 @@
 
 creatures.register_mob("cow:cow", {
 	stats = {
-		hp = 8,
+		hp = 12,
 		can_jump = 1,
 		can_swim = true,
 		can_burn = true,
@@ -42,20 +42,21 @@ creatures.register_mob("cow:cow", {
 	modes = {
 		idle = {chance = 0.5, duration = 10, random_yaw = 4},
 		walk = {
-			chance = 0.14, 
+			chance = 0.15, 
 			duration = 20, 
 			moving_speed = 0.8,
 			search_radius = 5
 		},
 		walk_around = {
-			chance = 0.2, 
+			chance = 0.15, 
 			duration = 20, 
 			moving_speed = 0.7
 		},
-		eat = {	chance = 1,
+		eat = {	
+			chance = 0.2,
 			duration = 4,
 			eat_time = 1.2,
-			sound = "cow_eat_grass",
+			sound = "creatures_eat_grass",
 			nodes = {
 				["default:grass_1"] = {remove=true}, 
 				["default:grass_2"] = {remove=true}, 
@@ -64,6 +65,14 @@ creatures.register_mob("cow:cow", {
 				["default:grass_5"] = {remove=true}, 
 				["default:dirt_with_grass"] = {replace="default:dirt"}, 
 			}
+		},
+		follow = {
+			chance = 0, 
+			duration = 20, 
+			radius = 5, 
+			moving_speed = 0.8, 
+			items = {["farming:wheat"]=true}, 
+			search_timer = 5
 		},
 	},
 	
@@ -83,13 +92,25 @@ creatures.register_mob("cow:cow", {
 			death = {start = 121, stop = 135, speed = 15, loop = false, duration = 2.52},
 		},
 	},
-
+	
+	randomize = {
+		values = {
+			{textures = {"cow_white_and_black.png"},},
+			{textures = {"cow_white_and_brown.png"},},
+			{textures = {"cow_brown_and_black.png"},},
+			{textures = {"cow_white.png"},},
+			{textures = {"cow_grey.png"},},
+			{textures = {"cow_black.png"},},
+			{textures = {"cow_brown.png"},},
+		},
+	},
+	
 	sounds = {
 		on_damage = {name = "sheep", gain = 1.0, distance = 10},
 		on_death = {name = "sheep", gain = 1.0, distance = 10},
 		swim = {name = "creatures_splash", gain = 1.0, distance = 10,},
 		random = {
-			idle = {name = "cow_idle", gain = 0.6, distance = 10, time_min = 23},
+			idle = {name = "cow", gain = 0.6, distance = 10, time_min = 23},
 		},
 	},
 	
