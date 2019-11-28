@@ -21,20 +21,20 @@ creatures.register_mob("cow:cow", {
 	hunger = {
 		days_interval = 5,
 		water = true,
-		water_nodes = {"sheep:drinking_fountain", "group:water"},
+		water_nodes = {"cow:drinking_fountain", "group:water"},
 		food = {
 			nodes = {
-				"sheep:sheep_feeder_1",
-				"sheep:sheep_feeder_2",
-				"sheep:sheep_feeder_3",
-				"sheep:sheep_feeder_4",
-				"sheep:sheep_feeder_5",
-				"sheep:sheep_feeder_6",
-				"sheep:sheep_feeder_7",
-				"sheep:sheep_feeder_8",
-				"sheep:sheep_feeder_9",
-				"sheep:sheep_feeder_10",
-				"sheep:sheep_feeder_11"
+				"cow:cow_feeder_1",
+				"cow:cow_feeder_2",
+				"cow:cow_feeder_3",
+				"cow:cow_feeder_4",
+				"cow:cow_feeder_5",
+				"cow:cow_feeder_6",
+				"cow:cow_feeder_7",
+				"cow:cow_feeder_8",
+				"cow:cow_feeder_9",
+				"cow:cow_feeder_10",
+				"cow:cow_feeder_11"
 			}
 		},
 	},
@@ -121,4 +121,20 @@ creatures.register_mob("cow:cow", {
 			texture = "cow_egg_spawn.png",
 		},
 	},
+	
+	drops = {
+		{"cow:raw_beef", 1, chance = 1},
+	},
+	
+	on_rightclick = function(self, clicker)
+		if self.is_died == true then return end
+		local itemstack = clicker:get_wielded_item()
+		if itemstack:get_name() == "bucket:bucket_empty" then
+			local inv = clicker:get_inventory()
+			if inv:room_for_item("main", "cow:bucket_milk 1") == true then
+				inv:remove_item("main", "bucket:bucket_empty 1")
+				inv:add_item("main", "cow:bucket_milk 1")
+			end
+		end
+	end,
 })

@@ -9,4 +9,8 @@
 
 local modpath = minetest.get_modpath("cow")
 
+dofile(modpath.."/craftitems.lua")
 dofile(modpath.."/cow.lua")
+dofile(modpath.."/bed.lua")
+dofile(modpath.."/feeder.lua")
+
