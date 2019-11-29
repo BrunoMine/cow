@@ -7,6 +7,15 @@
 	
   ]]
 
+-- Dirt for spawn env
+minetest.register_node("cow:dirt_spawn_env", {
+	description = "Dirt",
+	tiles = {"default_dirt.png"},
+	groups = {crumbly = 3, soil = 1},
+	sounds = default.node_sound_dirt_defaults(),
+	drop = "default:dirt",
+})
+
 creatures.register_mob("cow:cow", {
 	stats = {
 		hp = 12,
@@ -82,7 +91,7 @@ creatures.register_mob("cow:cow", {
 		collisionbox_width = 0.9,
 		collisionbox_height = 1.2,
 		rotation = -90.0,
-		scale = {x = 3.5, y = 3.5},
+		scale = {x = 3.7, y = 3.7},
 		vision_height = 0.9,
 		animations = {
 			idle = {start = 1, stop = 30, speed = 18},
@@ -114,7 +123,65 @@ creatures.register_mob("cow:cow", {
 		},
 	},
 	
+	get_staticdata = function(self)
+		return {
+			["cow:last_milk_day"] = self["cow:last_milk_day"],
+		}
+	end,
+	
 	spawning = {
+		
+		ambience = {
+			
+			{
+				spawn_type = "environment",
+				
+				max_number = 6,
+				spawn_zone_width = 100,
+				number = {min = 2, max = 3},
+				time_range = {min = 5100, max = 18300},
+				light = {min = 10, max = 15},
+				height_limit = {min = 0, max = 150},
+				
+				-- Spawn environment
+				spawn_env_chance = cow.spawn_env_chance,
+				spawn_env_seed = 5002,
+				spawn_env_biomes = {
+					-- Grassland
+					"grassland", 
+					"grassland_ocean",
+					"floatland_grassland",
+					-- Coniferous forest
+					"deciduous_forest",
+					"deciduous_forest_ocean",
+					-- Taiga
+					"taiga",
+					"taiga_ocean",
+				},
+				spawn_env_nodes = {
+					emergent = "cow:emergent_spawn_env",
+					spawn_on = {
+						"default:dirt_with_grass", 
+						"default:dirt_with_snow", "default:snowblock", "default:snow",
+					},
+					place_on = {
+						"default:dirt_with_grass", 
+						"default:dirt_with_snow", "default:snowblock", "default:snow",
+					},
+					set_on = {"cow:dirt_spawn_env"},
+					build = {
+						place = {
+							nodename = "cow:dirt_spawn_env",
+							nodes = {
+								"default:dirt_with_grass", 
+								"default:dirt_with_snow", "default:snowblock", "default:snow",
+							},
+							y_diff = -2,
+						},
+					},
+				},
+			},
+		},
 		
 		spawn_egg = {
 			description = "Cow Spawn-Egg",
@@ -122,19 +189,54 @@ creatures.register_mob("cow:cow", {
 		},
 	},
 	
+	child = {
+		name = "cow:cow_child",
+		days_to_grow = 7,
+		model = {
+			collisionbox_width = 0.7,
+			collisionbox_height = 1.1,
+			scale = {x = 2.35, y = 2.35}
+		},
+	},
+	
+	mating = {
+		child_mob = "cow:cow_child", 
+		interval = 5, 
+		birth_multiplier = 0.2,
+		spawn_type = "mob_node", 
+	},
+	
 	drops = {
 		{"cow:raw_beef", 1, chance = 1},
 	},
 	
 	on_rightclick = function(self, clicker)
-		if self.is_died == true then return end
+		if self.is_died == true or self.is_child == true then return end
+		
 		local itemstack = clicker:get_wielded_item()
+		
 		if itemstack:get_name() == "bucket:bucket_empty" then
+			
+			if self["cow:last_milk_day"] == nil then
+				self["cow:last_milk_day"] = -1
+			end
+			
+			local server_time = minetest.get_day_count() + minetest.get_timeofday()
+			
+			-- Check last time
+			if self["cow:last_milk_day"]+1 > server_time then
+				return
+			end
+			
 			local inv = clicker:get_inventory()
 			if inv:room_for_item("main", "cow:bucket_milk 1") == true then
 				inv:remove_item("main", "bucket:bucket_empty 1")
 				inv:add_item("main", "cow:bucket_milk 1")
+				-- Reset time
+				self["cow:last_milk_day"] = server_time
+				core.sound_play("cow_bucket_milk", {pos = self.object:get_pos(), max_hear_distance = 5, gain = 1})
 			end
+			
 		end
 	end,
 })

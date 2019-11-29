@@ -7,6 +7,10 @@
 	
   ]]
 
+cow = {}
+
+cow.spawn_env_chance = tonumber(minetest.settings:get("cow_spawn_chance") or 2)
+
 local modpath = minetest.get_modpath("cow")
 
 dofile(modpath.."/craftitems.lua")

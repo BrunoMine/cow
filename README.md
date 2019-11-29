@@ -17,17 +17,17 @@ See LICENSE.txt for more info about LGPL 3.0 license
 ### Authors of the source code
 Originally by BrunoMine, Bruno Borges <borgesdossantosbruno@gmail.com> (LGPL 3.0)
 
-gibarroule CC0 (http://freesound.org/people/gibarroule)
-	cow_eat_grass.ogg
-	cow_eat_grass.2.ogg
-	cow_eat_grass.3.ogg
-
-josephsardin CC0 (http://freesound.org/people/josephsardin)
+[josephsardin](https://freesound.org/people/josephsardin) (CC0)
 	cow_idle.ogg
 	cow_idle.2.ogg
 	cow_idle.3.ogg
 	cow_idle.4.ogg
 	cow_idle.5.ogg
+
+[njabrams](https://freesound.org/people/njabrams) (CC0)
+	cow_bucket_milk.ogg
+	cow_bucket_milk.0.ogg
+	cow_bucket_milk.1.ogg
 
 ### Authors of media (textures, models and sonds)
 All that are not described here are authored by 
