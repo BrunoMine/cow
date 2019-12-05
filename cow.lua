@@ -87,7 +87,7 @@ creatures.register_mob("cow:cow", {
 	
 	model = {
 		mesh = "cow.b3d",
-		textures = {"cow.png"},
+		textures = {"cow_white_and_black.png"},
 		collisionbox_width = 0.9,
 		collisionbox_height = 1.2,
 		rotation = -90.0,
@@ -187,6 +187,13 @@ creatures.register_mob("cow:cow", {
 			description = "Cow Spawn-Egg",
 			texture = "cow_egg_spawn.png",
 		},
+		
+		spawner = {
+			description = "Cow Spawner",
+			range = 8,
+			number = 4,
+			dummy_scale = {x=1.6, y=1.6},
+		}
 	},
 	
 	child = {
